@@ -1,1 +1,1 @@
-print('Wen Xi is gay.')
+print('Chuan Quan is gay.')
