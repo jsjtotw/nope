@@ -1,22 +1,18 @@
-tandas = input('What is your name')
-if tandas == 'joshua':
+name = input('What is your name? ')
+if name.lower() == 'joshua':
     print('Error')
-elif tandas == 'Joshua':
-    print('Error')
+    exit()
+gender = input('What is your gender? (m/f) ')
+if gender.lower() == 'm':
+    partner = "girlfriend"
+elif gender.lower() == 'f':
+    partner = "boyfriend"
 else:
-    gen = input('What is your gender? (m/f)')
-    if gen == 'm':
-        par = "girlfriend"
-    elif gen == 'f':
-        par = "boyfriend"
-    else:
-        print('Error')
-    
-    jamban = input(f'Who is your {par} (This will not be recorded.)')
-    if jamban == 'joshua':
-        print('Error')
-    elif jamban == 'Joshua':
-        print('Error')
-    else:
-        print(f'{tandas} is gay.')
-        print(f'{jamban} is also gay and is as retarded as you are currently are!')
+    print('Error')
+    exit()
+partner_name = input(f'Who is your {partner}? (This will not be recorded.) ')
+if partner_name.lower() == 'joshua':
+    print('Error')
+    exit()
+print(f'{name} is gay.')
+print(f'{partner_name} is also gay and is as retarded as you are!')
