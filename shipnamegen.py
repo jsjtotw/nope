@@ -23,7 +23,7 @@ while True:
     except ValueError as e:
         print("Error:", str(e))
         break  
-    print('-------------')   
     choice = input("Do you want to end? (y/n) ")
     if choice.lower() == "y":
         break
+    print('-------------')   
