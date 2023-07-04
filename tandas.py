@@ -1,5 +1,4 @@
 import re
-
 def simplify_code(code):
     code = remove_redundant_statements(code)
     code = remove_redundant_arguments(code)
