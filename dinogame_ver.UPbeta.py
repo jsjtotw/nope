@@ -1,6 +1,7 @@
 import pygame
 import random
 import sys
+import time
 
 WIDTH = 800
 HEIGHT = 400
@@ -45,6 +46,7 @@ def check_collision():
     return False
 
 def game_over():
+    window.fill(BLACK)
     font = pygame.font.Font(None, 72)
     text = font.render("Game Over", True, WHITE)
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
@@ -62,6 +64,12 @@ while True:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and not is_jumping:
                 is_jumping = True
+        elif event.type == pygame.MOUSEBUTTONDOWN and not is_jumping:
+                is_jumping = True
+        elif event.type == pygaame.FINGERDOWN and not is_jumping:
+                is_jumping = True
+        else:
+            is_jumping = False
     
     window.fill(BLACK)
     
@@ -76,13 +84,16 @@ while True:
         if score % 5 == 0:
             cactus_speed += 1
     
+    def pxmove():
+        #Undone work here, it needs to have upwards pixel "movement" so the the check_collision would not glitch
     if is_jumping:
         dino_y -= dino_jump_speed
-        dino_jump_speed -= 1
+        dino_jump_speed += 1
+        time.sleep(1)
+        pxmove()
         if dino_y >= HEIGHT - dino_height - 50:
             dino_y = HEIGHT - dino_height - 50
             is_jumping = False
-            dino_jump_speed = 10
     
     if check_collision():
         game_over()
