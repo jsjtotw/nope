@@ -18,12 +18,7 @@ def remove_redundant_if_statements(code):
     pattern = r"(?m)^\s*if\s+.*:\s*\n\s*(_\s*=\s*.*)\n\s*"
     return re.sub(pattern, lambda match: match.group(1), code)
 code = """
-def foo(x, y):
-    _ = x + y
-    return _
-if x > 0:
-    result = foo(3, 4)
-    print(result)
+print('input fake code here')
 """
 simplified_code = simplify_code(code)
 print(simplified_code)
