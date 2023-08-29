@@ -1,0 +1,24 @@
+import pandas as pd
+import random
+df = pd.read_csv('https://raw.githubusercontent.com/jsjtotw/WenXiIsGay/main/sglastnames.csv')
+df['Frequency'] = pd.to_numeric(df['Frequency'], errors='coerce')
+df = df.dropna(subset=['Frequency'])
+df['Frequency'] = df['Frequency'] / df['Frequency'].sum()
+def generate_random_name(names_generated):
+    remaining_surnames = df[~df['Surname'].isin(names_generated)]
+    if remaining_surnames.empty:
+        return None
+    return random.choices(remaining_surnames['Surname'], weights=remaining_surnames['Frequency'], k=1)[0]
+num_names = int(input("Enter the number of names to generate: "))
+generated_names = []
+while len(generated_names) < num_names:
+    name = generate_random_name(generated_names)
+    if name:
+        generated_names.append(name)
+prefixes = ['Mr.', 'Ms.', 'Mdm.', 'Mrs.']
+prefix_weights = [3, 1, 1, 1]
+prefixes_generated = random.choices(prefixes, weights=prefix_weights, k=num_names)
+for i in range(num_names):
+    prefix = prefixes_generated[i]
+    name = generated_names[i]
+    print(f"{prefix} {name}")
