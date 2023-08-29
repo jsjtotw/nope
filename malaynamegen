@@ -1,0 +1,12 @@
+import pandas as pd
+import random
+df = pd.read_csv('https://raw.githubusercontent.com/jsjtotw/WenXiIsGay/main/tandas%20nama%20bahasha%20melayu.csv')
+num_names = int(input("Enter the number of names to generate: "))
+generated_names = set()
+while len(generated_names) < num_names:
+    random_name = random.choice(df['Name'])
+    generated_names.add(random_name)
+for name in generated_names:
+    person_sex = df.loc[df['Name'] == name, 'Gender'].values[0]
+    person_sex = "Female" if person_sex == "Feminine" else "Male"
+    print(f"{name} ({person_sex})")
