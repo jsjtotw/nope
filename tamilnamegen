@@ -1,0 +1,31 @@
+import pandas as pd
+import random
+from indic_transliteration import sanscript, detect
+from unidecode import unidecode
+url = 'https://raw.githubusercontent.com/jsjtotw/WenXiIsGay/main/Tamil_name.txt'
+response = urllib.request.urlopen(url)
+lines = response.read().decode('utf-8').splitlines()
+tamil_names = []
+current_gender = None
+for line in lines:
+    line = line.strip()
+    if line == 'Girl name:':
+        current_gender = 'Female'
+    elif line == 'Boy name:':
+        current_gender = 'Male'
+    elif line:
+        tamil_names.append((line, current_gender))
+english_names = []
+for name, _ in tamil_names:
+    transliterated_name = sanscript.transliterate(name, sanscript.TAMIL, sanscript.ITRANS)
+    formatted_name = unidecode(transliterated_name).replace('ன', 'n').title()
+    english_names.append(formatted_name)
+num_names = int(input("Enter the number of names to generate: "))
+random_names = random.sample(tamil_names, num_names)
+generated_names = set()
+for name, gender in random_names:
+    transliterated_name = sanscript.transliterate(name, sanscript.TAMIL, sanscript.ITRANS)
+    formatted_name = unidecode(transliterated_name).replace('ன', 'n').title()
+    if formatted_name not in generated_names:
+        generated_names.add(formatted_name)
+        print(f"{formatted_name} ({gender})")
