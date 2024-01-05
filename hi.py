@@ -1,1 +1,1 @@
-print ("Joshua crushes on Rheia")
+print ("Lucas crushes on Foongsa¨)
