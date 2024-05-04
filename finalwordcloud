@@ -1,0 +1,71 @@
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+import random
+from PIL import Image
+import numpy as np
+def generate_word_cloud(names, mask_image, output_file="wordcloud.png", background_color='white'):
+    mask = np.array(Image.open(mask_image))
+#Removed random colour functionality
+    #def random_color(*args, **kwargs):
+        #return "rgb({}, {}, {})".format(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    wordcloud = WordCloud(
+        background_color=background_color,
+        width=800,
+        height=800,
+        repeat=True,
+        max_font_size=40,
+        #color_func=random_color, 
+        mask=mask,
+        font_path='arial'
+        ).generate_from_frequencies(names)
+    plt.figure(figsize=(8, 8), facecolor=None)
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.tight_layout(pad=0)
+    plt.savefig(output_file)
+    plt.show()
+if __name__ == "__main__":
+    names = [
+        "AMANDA",
+        "MDM HIDAYAH",
+        "CHRISTOPER",
+        "AUDREY",
+        "YUNG HANN",
+        "ELIZABETH",
+        "YU WEI",
+        "EMMA CHUA",
+        "JASSON",
+        "GLORIA",
+        "XAVIER",
+        "ISABEL",
+        "REYDEN",
+        "MR KWEK",
+        "KIMI",
+        "CHENG EN",
+        "EMMA JOY",
+        "BAN LEE",
+        "OLIVIA",
+        "RYNER",
+        "RACHEL",
+        "RUI AN",
+        "RHEIA",
+        "NATHANIAL",
+        "JERICA",
+        "LUCAS",
+        "VERA",
+        "KAELEB",
+        "ALDEN",
+        "JAYDEN",
+        "BRYAN",
+        "JOSHUA",
+        "ELVIN",
+        "RYAN",
+        "DARYL",
+        "ETHAN",
+        "ELLIOTT",
+        "EN YU",
+    ]
+    random.shuffle(names)
+    name_freq = {name: 1 for name in names}
+    mask_image = "2c.png" 
+    generate_word_cloud(name_freq, mask_image)
