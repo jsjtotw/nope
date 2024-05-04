@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <!--<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />-->
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+  <style>
+    body {
+        font-family: "Lato", "Helvetica", "Arial", sans-serif;
+    }
+    
+    
+.buttonClass {
+  font-size:15px;
+  font-family:Arial;
+  width:75px;
+  height:50px;
+  border-width:1px;
+  color:#fff;
+  border-color:#18ab29;
+  font-weight:bold;
+  border-top-left-radius:28px;
+  border-top-right-radius:28px;
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+  text-shadow: 1px 1px 0px #2f6627;
+  background:linear-gradient(#44c767, #5cbf2a);
+}
+
+.buttonClass:hover {
+  background: linear-gradient(#5cbf2a, #44c767);
+}
+
+
+.b1 {
+  font-size:15px;
+  font-family:Arial;
+  width:75px;
+  height:50px;
+  border-width:1px;
+  color:#fff;
+  border-color:rgba(171, 28, 24, 1);
+  font-weight:bold;
+  border-top-left-radius:28px;
+  border-top-right-radius:28px;
+  border-bottom-left-radius:28px;
+  border-bottom-right-radius:28px;
+  text-shadow: 1px 1px 0px rgba(102, 39, 39, 1);
+  background:linear-gradient(rgba(199, 68, 68, 1), rgba(191, 42, 42, 1));
+}
+
+.b1:hover {
+  background: linear-gradient(rgba(191, 42, 42, 1), rgba(199, 68, 68, 1));
+}
+
+
+.b2 {
+  font-size:15px;
+  font-family:Arial;
+  width:140px;
+  height:50px;
+  border-width:1px;
+  color:#ffffff;
+  border-color:#337fed;
+  font-weight:bold;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+  box-shadow:inset 0px 1px 0px 0px #97c4fe;
+  text-shadow:inset 0px 1px 0px #1570cd;
+  background:linear-gradient(#3d94f6, #1e62d0);
+}
+
+.b2:hover {
+  background: linear-gradient(#1e62d0, #3d94f6);
+}
+              
+              
+    }
+    d {
+    opacity: 1;
+    }
+	div {
+	opacity: 0;
+	}
+    
+    div2 {
+	opacity: 0;
+	}
+    
+   </style>
+<body>
+  <h3>Do you already have names to ship? If not, one will be randomly generated for you.</h3>
+  <button id="hi" type="button" class="buttonClass" pys-onClick="my_function">YES</button> 
+  <e><button id="nobtn" type="button" class="b1" pys-onClick="my_function">NO</button></e>
+    <div><input type="text" id="test-input"/></div>
+  <div2><button id="yesbtn" type="submit" pys-onClick="my_function" >OK(seperate names with commas)</button></div2>
+    <script>
+document.querySelector('button').addEventListener('click', function(){
+    document.querySelector('div').style.opacity=1;
+    document.querySelector('div2').style.opacity=1;
+})
+    </script>
+    <script>
+document.querySelector('e').addEventListener('click', function(){
+    document.querySelector('div').style.opacity=0;
+    document.querySelector('div2').style.opacity=0;
+})
+    </script>
+
+  <d id="text"></d><br>
+  <d id="t1"></d><br>
+  <d id="t2"></d><br>
+	<d id="t3"></d><br>
+	<d id="t4"></d><br>
+	<d id="t5"></d><br>
+
+<py-script>
+
+import random
+from js import document
+from pyodide import create_proxy
+
+def yes(e):
+    texty= Element('test-input').element.value
+    text = f'{texty}'
+    girl, boy = text.split(',')
+    if girl == 'Emma-Joy':
+        female = girl.replace('-', '')
+    else:
+        female = girl.replace(' ', '')
+    male = boy.replace(' ', '')   
+    girllower = female.lower()
+    boylower = male.lower()
+    girllowerseperated=set([*girllower])
+    boylowerseperated=set([*boylower])
+    jaccardsimilarity =  len(girllowerseperated.intersection(boylowerseperated))/len(girllowerseperated.union(boylowerseperated))
+    jb = jaccardsimilarity+0.25
+    if jb < .3:
+        s = 'Bad ship'
+    elif jb < .4:
+        s = 'Lackluster ship'
+    elif jb < .5:
+        s = 'Borderline ship'
+    elif jb < .6:
+        s = 'Fine ship'
+    elif jb < .7:
+        s = 'Fair ship'
+    elif jb < .8:
+        s = 'Good ship'
+    elif jb < .9:
+        s = 'Great ship'
+    else:
+        s = 'Awesome ship'
+    ship = ['Your ship is:', girl, 'x', boy]
+    shipfull=(" ".join(ship))
+    letters = ['Letters:', '{:}'.format(girllowerseperated), '{:}'.format(boylowerseperated)]
+    lettersfull=(" ".join(letters))
+    js = ['Jaccard Similarity:', '{:}'.format(jaccardsimilarity)]
+    jsfull=(" ".join(js))
+    sr = ['Ship rating (Jaccard Similarity+0.25 converted to percentage):','{:.0%}'.format(jb) ]
+    srfull=(" ".join(sr))
+    sr2 = ['Ship rating:', s]
+    sfull=(" ".join(sr2))
+    full = [shipfull, lettersfull, jsfull, srfull, sfull]
+    fullfull = ("\n".join(full))
+    Element('t1').element.innerText = shipfull
+    Element('t2').element.innerText =  lettersfull
+    Element('t3').element.innerText = jsfull
+    Element('t4').element.innerText = srfull
+    Element('t5').element.innerText = sfull
+def no(e):
+    answer = random.randint (1,14)
+    if answer == (1):
+        girl = 'Amanda'
+    elif answer == (2):
+        girl = 'Audrey'
+    elif answer == (3):
+        girl = 'Elizabeth'
+    elif answer == (4):
+     girl = 'Emma Chua'
+    elif answer == (5):
+     girl = 'Gloria'
+    elif answer == (6):
+     girl = 'Isabel'
+    elif answer == (7):
+     girl = 'Kimi'
+    elif answer == (8):
+       girl = 'Emma-Joy'
+    elif answer == (9):
+      girl = 'Olivia'
+    elif answer == (10):
+        girl = 'En Yu'
+    elif answer == (11):
+      girl = 'Rachel'
+    elif answer == (12):
+        girl = 'Rheia'
+    elif answer == (13):
+     girl = 'Jerica'
+    elif answer == (14):
+     girl = "Vera"
+    answer1 = random.randint (15,36)
+    if answer1 == (15):
+     boy = 'Alden'
+    elif answer1 == (16):
+      boy = 'Bryan'
+    elif answer1 == (17):
+        boy = 'Elvin'
+    elif answer1 == (18):
+        boy = 'Daryl'
+    elif answer1 == (19):
+        boy = 'Elliott'
+    elif answer1 == (20):
+        boy = 'Ethan'
+    elif answer1 == (21):
+        boy = 'Ryan'
+    elif answer1 == (22):
+        boy = 'Jayden'
+    elif answer1 == (23):
+        boy = 'Joshua'
+    elif answer1 == (24):
+       boy = 'Kaeleb'
+    elif answer1 == (25):
+       boy = 'Lucas'
+    elif answer1 == (26):
+      boy = 'Nathanial'
+    elif answer1 == (27):
+       boy = 'Rui An'
+    elif answer1 == (28):
+        boy = 'Ryner'
+    elif answer1 == (29):
+        boy = 'Ban Lee'
+    elif answer1 == (30):
+      boy = 'Cheng En'
+    elif answer1 == (31):
+      boy = 'Reyden'
+    elif answer1 == (32):
+      boy = 'Xavier'
+    elif answer1 == (33):
+      boy = 'Jasson'
+    elif answer1 == (34):
+        boy = 'Yu Wei'
+    elif answer1 == (35):
+      boy = 'Yung Hann'
+    elif answer1 == (36):
+        boy = 'Christopher'
+    if girl == 'Emma-Joy':
+        female = girl.replace('-', '')
+    else:
+        female = girl.replace(' ', '')
+    male = boy.replace(' ', '')   
+    girllower = female.lower()
+    boylower = male.lower()
+    girllowerseperated=set([*girllower])
+    boylowerseperated=set([*boylower])
+    jaccardsimilarity =  len(girllowerseperated.intersection(boylowerseperated))/len(girllowerseperated.union(boylowerseperated))
+    jb = jaccardsimilarity+0.25
+    if jb < .3:
+        s = 'Bad ship'
+    elif jb < .4:
+        s = 'Lackluster ship'
+    elif jb < .5:
+        s = 'Borderline ship'
+    elif jb < .6:
+        s = 'Fine ship'
+    elif jb < .7:
+        s = 'Fair ship'
+    elif jb < .8:
+        s = 'Good ship'
+    elif jb < .9:
+        s = 'Great ship'
+    else:
+        s = 'Awesome ship'
+    ship = ['Your random ship is:', girl, 'x', boy]
+    shipfull=(" ".join(ship))
+    letters = ['Letters:', '{:}'.format(girllowerseperated), '{:}'.format(boylowerseperated)]
+    lettersfull=(" ".join(letters))
+    js = ['Jaccard Similarity:', '{:}'.format(jaccardsimilarity)]
+    jsfull=(" ".join(js))
+    sr = ['Ship rating (Jaccard Similarity+0.25 converted to percentage):','{:.0%}'.format(jb) ]
+    srfull=(" ".join(sr))
+    sr2 = ['Ship rating:', s]
+    sfull=(" ".join(sr2))
+    full = [shipfull, lettersfull, jsfull, srfull, sfull]
+    fullfull = ("\n".join(full))
+    Element('t1').element.innerText = shipfull
+    Element('t2').element.innerText =  lettersfull
+    Element('t3').element.innerText = jsfull
+    Element('t4').element.innerText = srfull
+    Element('t5').element.innerText = sfull
+    
+yes_proxy = create_proxy(yes)
+yes_button = document.getElementById('yesbtn')
+yes_button.addEventListener('click', yes_proxy)
+
+no_proxy = create_proxy(no)
+no_button = document.getElementById('nobtn')
+no_button.addEventListener('click', no_proxy)
+</py-script>
+  </body>
+</html>
